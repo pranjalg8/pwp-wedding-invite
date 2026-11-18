@@ -27,7 +27,7 @@ window.INVITE = {
       date: '2027-02-15',
       label: 'Monday 15 February',
       functions: [
-        { key: 'haldi', name: 'Haldi', part: 'Daytime', venue: 'main', blurb: 'The haldi ceremony, in soft pastel colours.', dress: 'Pastel shades' },
+        { key: 'haldi', name: 'Haldi', part: 'Daytime', venue: 'main', blurb: 'The haldi ceremony, in yellow and marigold.', dress: 'Yellow & marigold' },
         { key: 'shaadi', name: 'Baraat, Varmala & Mandap', part: 'Evening to midnight', venue: 'main', blurb: 'The baraat arrives, the garlands are exchanged and the wedding rituals take place.', dress: 'Wear whatever you love' },
       ],
     },
@@ -40,7 +40,7 @@ window.INVITE = {
   ],
 
   themes: [
-    { name: 'Haldi', when: '15 February, daytime', mood: 'Pastel shades', colours: ['#fbe3ea', '#fff0c9', '#dff0e6', '#e6e1f7', '#ffe0cf'], text: 'Soft, sunny colours. Think blush, butter, mint and lavender.' },
+    { name: 'Haldi', when: '15 February, daytime', mood: 'Yellow & marigold', colours: ['#fff3b0', '#ffd84d', '#f6b73c', '#e8921a', '#c96f0a'], text: 'Yellow is the only theme. Think turmeric, mustard, lemon and marigold, and please skip other colours.' },
     { name: 'Sangeet', when: '14 February, evening', mood: 'Glitz & Glamour', colours: ['#1b1b1f', '#c9a24b', '#7a1f2e', '#e8d8b5', '#b8b8c2'], text: 'Indo-western with plenty of bling. Sequins, sparkle, and a dancing-ready outfit.' },
     { name: 'The wedding', when: '15 February, evening', mood: 'Wear what you love', colours: ['#7a1f2e', '#f3e7d3', '#c9a24b', '#fffaf2', '#a62e4d'], text: 'No dress code. The couple will be in deep red and ivory, so you are welcome to match or contrast.' },
   ],
