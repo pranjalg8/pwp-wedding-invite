@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Paridhi &amp; Pranjal · 14–15 February 2027</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="Join us in Bawal, Haryana on 14 and 15 February 2027 as Paridhi and Pranjal get married." />
+  <meta property="og:title" content="Paridhi &amp; Pranjal are getting married" />
+  <meta property="og:description" content="14–15 February 2027 · Royal Pepper, Bawal. Functions, venues, stay and RSVP." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pranjalg8.github.io/pwp-wedding-invite/" />
+  <meta property="og:image" content="https://pranjalg8.github.io/pwp-wedding-invite/og.png" />
+  <meta name="theme-color" content="#7a1f2e" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%8D%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav" id="nav">
+    <a class="nav-mark" href="#top" aria-label="Back to top">P<span>&amp;</span>P</a>
+    <nav aria-label="Sections">
+      <a href="#schedule">Schedule</a>
+      <a href="#venue">Venue</a>
+      <a href="#stay">Stay</a>
+      <a href="#theme">Dress &amp; decor</a>
+      <a href="#photos" id="nav-photos" hidden>Us</a>
+      <a class="nav-rsvp" href="#rsvp">RSVP</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="eyebrow">Together with our families</p>
+        <h1><span>Paridhi</span><em>&amp;</em><span>Pranjal</span></h1>
+        <p class="hero-date">14 &amp; 15 February 2027</p>
+        <p class="hero-place">Royal Pepper, Bawal, Haryana</p>
+        <div class="countdown" id="countdown" aria-live="off">
+          <div><b id="cd-d">--</b><small>days</small></div>
+          <div><b id="cd-h">--</b><small>hours</small></div>
+          <div><b id="cd-m">--</b><small>minutes</small></div>
+        </div>
+        <div class="hero-cta">
+          <a class="btn btn-solid" href="#rsvp">RSVP</a>
+          <a class="btn btn-ghost" href="#schedule">See the schedule</a>
+        </div>
+      </div>
+      <a class="scroll-hint" href="#schedule" aria-label="Scroll to schedule"><span></span></a>
+    </section>
+
+    <section class="section" id="schedule">
+      <div class="wrap">
+        <p class="eyebrow">Two days of celebration</p>
+        <h2>The schedule</h2>
+        <p class="lead">Exact timings will be shared closer to the date. Save both days and add them to your calendar.</p>
+        <div class="tabs" role="tablist" aria-label="Choose a day">
+          <button role="tab" class="tab is-on" data-day="2027-02-14" aria-selected="true">Sunday 14 Feb</button>
+          <button role="tab" class="tab" data-day="2027-02-15" aria-selected="false">Monday 15 Feb</button>
+        </div>
+        <div class="day-actions">
+          <button class="link" id="day-ics" type="button">Add this day to my calendar</button>
+        </div>
+        <div class="cards" id="functions"></div>
+      </div>
+    </section>
+
+    <section class="section tint" id="venue">
+      <div class="wrap">
+        <p class="eyebrow">Where</p>
+        <h2>The venue</h2>
+        <div class="venue">
+          <div class="venue-card">
+            <h3>Royal Pepper</h3>
+            <p>Our main venue in Bawal, Haryana. The wedding functions on both days take place here.</p>
+            <ul class="facts">
+              <li><span>Both days</span> 14 and 15 February 2027</li>
+              <li><span>Stay</span> Rooms on site, lift available</li>
+              <li><span>Checkout</span> 16 February</li>
+            </ul>
+            <div class="row">
+              <a class="btn btn-solid" id="map-main" target="_blank" rel="noopener" href="#">Open in Google Maps</a>
+              <a class="btn btn-ghost" id="dir-main" target="_blank" rel="noopener" href="#">Get directions</a>
+            </div>
+            <p class="note">Bawal is on the Delhi–Jaipur highway (NH48), a drive of roughly two hours from Gurugram. Plan some extra time for traffic.</p>
+          </div>
+          <div class="map-wrap">
+            <iframe id="map-frame" title="Map of Royal Pepper, Bawal" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="stay">
+      <div class="wrap">
+        <p class="eyebrow">Where to stay</p>
+        <h2>Accommodation</h2>
+        <p class="lead">Rooms are arranged for each family. Please share your arrival and departure plans in the RSVP and we will confirm your room.</p>
+        <div class="stay-grid" id="stay-grid"></div>
+      </div>
+    </section>
+
+    <section class="section tint" id="theme">
+      <div class="wrap">
+        <p class="eyebrow">What to wear</p>
+        <h2>Dress &amp; decor</h2>
+        <p class="lead">A few of our functions have a theme. Here is the mood, so you can plan your outfits.</p>
+        <div class="themes" id="themes"></div>
+      </div>
+    </section>
+
+    <section class="section" id="photos" hidden>
+      <div class="wrap">
+        <p class="eyebrow">Us</p>
+        <h2>A few of our favourite moments</h2>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <section class="section tint" id="rsvp">
+      <div class="wrap narrow">
+        <p class="eyebrow">Will you join us?</p>
+        <h2>RSVP</h2>
+        <p class="lead">Use the personal link we sent you. It already knows who you are. Tell us who is coming on each day.</p>
+        <form id="rsvp-form" class="form" novalidate>
+          <label class="field">
+            <span>Invite code</span>
+            <input name="code" id="code" autocomplete="off" inputmode="text" placeholder="From your personal link" required />
+            <small id="code-help">Open the link we sent you, or type the code from your invitation.</small>
+          </label>
+          <label class="field">
+            <span>Your name</span>
+            <input name="name" id="name" autocomplete="name" required maxlength="80" />
+          </label>
+
+          <fieldset class="day" data-day="2027-02-14">
+            <legend>Sunday 14 Feb <small>Tilak, Mehndi, Sagai, Sangeet</small></legend>
+            <div class="choices" role="radiogroup" aria-label="14 February">
+              <label><input type="radio" name="d14" value="yes" /><span>Joyfully coming</span></label>
+              <label><input type="radio" name="d14" value="maybe" /><span>Not sure yet</span></label>
+              <label><input type="radio" name="d14" value="no" /><span>Can't make it</span></label>
+            </div>
+            <label class="count"><span>How many people</span><input type="number" name="n14" min="1" max="20" value="1" inputmode="numeric" /></label>
+          </fieldset>
+
+          <fieldset class="day" data-day="2027-02-15">
+            <legend>Monday 15 Feb <small>Haldi, Baraat, Varmala, Mandap</small></legend>
+            <div class="choices" role="radiogroup" aria-label="15 February">
+              <label><input type="radio" name="d15" value="yes" /><span>Joyfully coming</span></label>
+              <label><input type="radio" name="d15" value="maybe" /><span>Not sure yet</span></label>
+              <label><input type="radio" name="d15" value="no" /><span>Can't make it</span></label>
+            </div>
+            <label class="count"><span>How many people</span><input type="number" name="n15" min="1" max="20" value="1" inputmode="numeric" /></label>
+          </fieldset>
+
+          <div class="two">
+            <label class="field"><span>Arriving (first night you need a room)</span>
+              <select name="arrive_on">
+                <option value="">Not staying over</option>
+                <option value="2027-02-12">Fri 12 Feb</option>
+                <option value="2027-02-13">Sat 13 Feb</option>
+                <option value="2027-02-14">Sun 14 Feb</option>
+                <option value="2027-02-15">Mon 15 Feb</option>
+              </select>
+            </label>
+            <label class="field"><span>Leaving (morning you check out)</span>
+              <select name="leave_on">
+                <option value="">Not staying over</option>
+                <option value="2027-02-14">Sun 14 Feb</option>
+                <option value="2027-02-15">Mon 15 Feb</option>
+                <option value="2027-02-16">Tue 16 Feb</option>
+                <option value="2027-02-17">Wed 17 Feb</option>
+              </select>
+            </label>
+          </div>
+          <label class="field"><span>How you are travelling</span><input name="travel" placeholder="e.g. by car, morning of 14 Feb" maxlength="120" /></label>
+          <label class="field"><span>Food preferences or anything we should know</span><textarea name="note" rows="3" maxlength="300"></textarea></label>
+          <label class="hp" aria-hidden="true">Leave this empty <input name="website" tabindex="-1" autocomplete="off" /></label>
+          <button class="btn btn-solid" type="submit" id="rsvp-submit">Send RSVP</button>
+          <p class="form-msg" id="rsvp-msg" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p class="foot-names">Paridhi &amp; Pranjal</p>
+    <p>14 &amp; 15 February 2027 · Bawal, Haryana</p>
+    <p class="small">With love, Pranjal and Paridhi. Questions? Ask any of the family.</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
