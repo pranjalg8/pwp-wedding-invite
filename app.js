@@ -44,6 +44,17 @@
     x.setUTCDate(x.getUTCDate() + 1);
     return x.toISOString().slice(0, 10).replace(/-/g, '');
   };
+  // A timed event once the planner shows the time (India time, written as UTC), otherwise an all-day event.
+  const utc = (date, hhmm, addDays = 0) => {
+    const x = new Date(`${date}T${hhmm}:00+05:30`);
+    x.setUTCDate(x.getUTCDate() + addDays);
+    return x.toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
+  };
+  const when = (e) => {
+    if (!e.start) return [`DTSTART;VALUE=DATE:${ymd(e.date)}`, `DTEND;VALUE=DATE:${nextDay(e.date)}`];
+    const endAt = e.end || `${String(Math.min(23, +e.start.slice(0, 2) + 2)).padStart(2, '0')}${e.start.slice(2)}`;
+    return [`DTSTART:${utc(e.date, e.start)}`, `DTEND:${utc(e.date, endAt, endAt <= e.start ? 1 : 0)}`];
+  };
   const ics = (events) => {
     const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Paridhi and Pranjal//Wedding//EN', 'CALSCALE:GREGORIAN'];
     events.forEach((e, i) => {
@@ -51,11 +62,10 @@
         'BEGIN:VEVENT',
         `UID:pp-wedding-${e.key}-${i}@invite`,
         `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}Z`,
-        `DTSTART;VALUE=DATE:${ymd(e.date)}`,
-        `DTEND;VALUE=DATE:${nextDay(e.date)}`,
+        ...when(e),
         `SUMMARY:${e.name} (Paridhi & Pranjal)`.replace(/([,;])/g, '\\$1'),
-        `LOCATION:${C.venues[e.venue].name}`.replace(/([,;])/g, '\\$1'),
-        `DESCRIPTION:${e.part}. ${e.blurb} Timing to be confirmed.`.replace(/([,;])/g, '\\$1'),
+        `LOCATION:${venueOf(e).name}`.replace(/([,;])/g, '\\$1'),
+        `DESCRIPTION:${e.time || e.part}. ${e.blurb}${e.start ? '' : ' Timing to be confirmed.'}`.replace(/([,;])/g, '\\$1'),
         'END:VEVENT',
       );
     });
@@ -69,6 +79,8 @@
     a.remove();
   };
   const dayEvents = (day) => day.functions.map((f) => ({ ...f, date: day.date }));
+  // A function's venue is a key into config.js (the built-in copy) or a venue object from the planner.
+  const venueOf = (f) => (typeof f.venue === 'string' ? C.venues[f.venue] : f.venue) || C.venues.main;
 
   // ---- schedule
   let activeDay = C.days[0];
@@ -76,7 +88,7 @@
   const renderDay = () => {
     list.innerHTML = '';
     dayEvents(activeDay).forEach((f, i) => {
-      const v = C.venues[f.venue];
+      const v = venueOf(f);
       const card = el('article', { class: 'card', style: `animation-delay:${i * 60}ms` });
       card.innerHTML = `<div class="part">${esc(f.time || f.part)}</div><h3>${esc(f.name)}</h3><p>${esc(f.blurb)}</p>
         <p class="dress"><b>Dress:</b> ${esc(f.dress)}</p>
@@ -98,6 +110,24 @@
   );
   $('#day-ics').addEventListener('click', () => download(`wedding-${activeDay.date}.ics`, ics(dayEvents(activeDay))));
   renderDay();
+
+  // The schedule lives in the planner. config.js keeps a copy, shown first and kept if the planner cannot be reached.
+  if (C.scheduleEndpoint) {
+    fetch(C.scheduleEndpoint)
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+      .then((j) => {
+        let changed = false;
+        for (const d of j.days || []) {
+          const day = C.days.find((x) => x.date === d.date);
+          if (day && Array.isArray(d.functions) && d.functions.length) {
+            day.functions = d.functions;
+            changed = true;
+          }
+        }
+        if (changed) renderDay();
+      })
+      .catch(() => {});
+  }
 
   // ---- stay
   $('#stay-grid').innerHTML = C.stay

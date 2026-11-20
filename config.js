@@ -11,7 +11,8 @@ window.INVITE = {
     sai: { name: 'Hotel Sai, Bawal', query: 'Hotel Sai Bawal Haryana', maps: '', embed: '' },
   },
 
-  // Times are still to be confirmed, so each function shows its part of the day. Add `time: '7:00 pm'` when known.
+  // The built-in copy of the schedule. The live one comes from the planner (scheduleEndpoint below), where times are
+  // added under Functions and shown here once "Show the time on the invite" is on.
   days: [
     {
       date: '2027-02-14',
@@ -48,4 +49,8 @@ window.INVITE = {
   // Where the reply form sends answers. Replies are only accepted while they are switched open in the planner
   // (Guests > Replies), and they wait there until they are reviewed.
   rsvpEndpoint: 'https://qutawbofxpcqxkxrzebv.supabase.co/functions/v1/invite-rsvp',
+
+  // The schedule (names, part of the day, times once switched on, venues, dress codes) comes from the planner. The
+  // `days` above are the copy shown until it loads, or if it cannot be reached.
+  scheduleEndpoint: 'https://qutawbofxpcqxkxrzebv.supabase.co/functions/v1/invite-schedule',
 };
