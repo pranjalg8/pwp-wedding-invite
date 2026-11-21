@@ -1,6 +1,6 @@
-# Paridhi & Pranjal: wedding invite site
+# Pranjal & Paridhi: wedding invite site
 
-A static, no-build website for GitHub Pages. 14 and 15 February 2027, Royal Pepper, Bawal.
+A static, no-build website for GitHub Pages. 14 and 15 February 2027, Royal Pepper, Kathuwas.
 
 Everything here is public. Never add keys, PINs, guest lists, phone numbers or bills.
 

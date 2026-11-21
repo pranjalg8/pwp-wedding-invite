@@ -6,7 +6,7 @@ window.INVITE = {
   // Map links are search links until the exact pins are pasted in. To use an exact pin, open the place in Google Maps,
   // press Share, and paste the short link as `maps` (and `embed` from Share > Embed a map, the src="" value).
   venues: {
-    main: { name: 'Royal Pepper, Bawal', query: 'Royal Pepper Bawal Haryana', maps: '', embed: '' },
+    main: { name: 'Royal Pepper, Kathuwas', query: 'Royal Pepper Bawal Haryana', maps: '', embed: '' },
     shrikanth: { name: 'Shri Kanth Hotel, Bawal', query: 'Shri Kanth Hotel Bawal Haryana', maps: '', embed: '' },
     sai: { name: 'Hotel Sai, Bawal', query: 'Hotel Sai Bawal Haryana', maps: '', embed: '' },
   },

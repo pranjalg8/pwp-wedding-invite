@@ -56,14 +56,14 @@
     return [`DTSTART:${utc(e.date, e.start)}`, `DTEND:${utc(e.date, endAt, endAt <= e.start ? 1 : 0)}`];
   };
   const ics = (events) => {
-    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Paridhi and Pranjal//Wedding//EN', 'CALSCALE:GREGORIAN'];
+    const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Pranjal and Paridhi//Wedding//EN', 'CALSCALE:GREGORIAN'];
     events.forEach((e, i) => {
       lines.push(
         'BEGIN:VEVENT',
         `UID:pp-wedding-${e.key}-${i}@invite`,
         `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}Z`,
         ...when(e),
-        `SUMMARY:${e.name} (Paridhi & Pranjal)`.replace(/([,;])/g, '\\$1'),
+        `SUMMARY:${e.name} (Pranjal & Paridhi)`.replace(/([,;])/g, '\\$1'),
         `LOCATION:${venueOf(e).name}`.replace(/([,;])/g, '\\$1'),
         `DESCRIPTION:${e.time || e.part}. ${e.blurb}${e.start ? '' : ' Timing to be confirmed.'}`.replace(/([,;])/g, '\\$1'),
         'END:VEVENT',
@@ -154,7 +154,7 @@
     .then((r) => r.json())
     .then((m) => {
       if (!m.photos || !m.photos.length) return;
-      gal.innerHTML = m.photos.map((p) => `<figure><img loading="lazy" src="${esc(p.src)}" alt="${esc(p.alt || 'Paridhi and Pranjal')}" /></figure>`).join('');
+      gal.innerHTML = m.photos.map((p) => `<figure><img loading="lazy" src="${esc(p.src)}" alt="${esc(p.alt || 'Pranjal and Paridhi')}" /></figure>`).join('');
       $('#photos').hidden = false;
       $('#nav-photos').hidden = false;
     })
