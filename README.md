@@ -11,6 +11,7 @@ All text lives in `config.js`: functions per day, dress hints, stay options, the
 - **Exact map pins:** open each place in Google Maps, press Share, and paste the short link as `maps` (and the embed `src` as `embed`) in `config.js`. Until then the buttons use a Google Maps search.
 - **Timings:** add `time: '7:00 pm'` to a function once confirmed. The calendar files are all-day events until then.
 - **Photos:** drop images in `photos/` and list them in `photos/manifest.json` as `{ "photos": [{ "src": "photos/one.jpg", "alt": "…" }] }`. Keep each under about 300 KB.
+- **Look:** the "Mughal Garden" style of the printed cards. `art/` holds web-sized cuts of one licensed Adobe Stock painting (1048274902): the full painting for the hero, the arch top for the RSVP card, and a repeating tile of its railing. Colours and fonts are at the top of `styles.css`.
 - **Share preview:** `og.png` (1200 x 630). After the site URL is known, change `og:image` in `index.html` to the full URL, because WhatsApp needs an absolute link.
 
 ## Run locally

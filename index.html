@@ -11,11 +11,12 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pranjalg8.github.io/pwp-wedding-invite/" />
   <meta property="og:image" content="https://pranjalg8.github.io/pwp-wedding-invite/og.png" />
-  <meta name="theme-color" content="#7a1f2e" />
+  <meta name="theme-color" content="#d2e0da" />
+  <meta name="color-scheme" content="light" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%8D%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -33,11 +34,18 @@
 
   <main id="top">
     <section class="hero">
-      <div class="hero-inner">
-        <p class="eyebrow">Together with our families</p>
-        <h1><span>Paridhi</span><em>&amp;</em><span>Pranjal</span></h1>
-        <p class="hero-date">14 &amp; 15 February 2027</p>
-        <p class="hero-place">Royal Pepper, Bawal, Haryana</p>
+      <div class="hero-card">
+        <img class="hero-img" src="art/garden-800.jpg" srcset="art/garden-800.jpg 800w, art/garden-1200.jpg 1200w" sizes="(min-width: 640px) 560px, 100vw" width="1200" height="1800" fetchpriority="high" alt="A Mughal garden pavilion with a peacock, under a scalloped arch" />
+        <div class="hero-text">
+          <p class="gan">|| Shri Ganeshaya Namah ||</p>
+          <h1>Paridhi <span>&amp;</span> Pranjal</h1>
+          <i class="rule" aria-hidden="true"></i>
+          <p class="hero-date">14 – 15 February 2027</p>
+          <p class="hero-place">Royal Pepper · Bawal, Haryana</p>
+          <p class="hashtag">#TwoPsInaPod</p>
+        </div>
+      </div>
+      <div class="hero-below">
         <div class="countdown" id="countdown" aria-live="off">
           <div><b id="cd-d">--</b><small>days</small></div>
           <div><b id="cd-h">--</b><small>hours</small></div>
@@ -48,7 +56,6 @@
           <a class="btn btn-ghost" href="#schedule">See the schedule</a>
         </div>
       </div>
-      <a class="scroll-hint" href="#schedule" aria-label="Scroll to schedule"><span></span></a>
     </section>
 
     <section class="section" id="schedule">
@@ -119,10 +126,16 @@
       </div>
     </section>
 
-    <section class="section tint" id="rsvp">
-      <div class="wrap narrow">
+    <section class="section" id="rsvp">
+      <div class="reply">
+        <div class="reply-head">
+          <img src="art/arch.jpg" width="1000" height="555" loading="lazy" alt="" />
+          <div class="reply-title">
+            <h2>RSVP</h2>
+          </div>
+        </div>
+        <div class="reply-body">
         <p class="eyebrow">Will you join us?</p>
-        <h2>RSVP</h2>
         <p class="lead">Use the personal link we sent you. It already knows who you are. Tell us who is coming on each day.</p>
         <form id="rsvp-form" class="form" novalidate>
           <label class="field">
@@ -181,14 +194,18 @@
           <button class="btn btn-solid" type="submit" id="rsvp-submit">Send RSVP</button>
           <p class="form-msg" id="rsvp-msg" role="status"></p>
         </form>
+        </div>
+        <div class="railing" aria-hidden="true"></div>
       </div>
     </section>
   </main>
 
   <footer class="foot">
     <p class="foot-names">Paridhi &amp; Pranjal</p>
-    <p>14 &amp; 15 February 2027 · Bawal, Haryana</p>
+    <p>14 – 15 February 2027 · Bawal, Haryana</p>
+    <p class="hashtag">#TwoPsInaPod</p>
     <p class="small">With love, Pranjal and Paridhi. Questions? Ask any of the family.</p>
+    <div class="railing" aria-hidden="true"></div>
   </footer>
 
   <script src="config.js"></script>
