@@ -168,7 +168,21 @@
             <label class="count"><span>How many people</span><input type="number" name="n15" min="1" max="20" value="1" inputmode="numeric" /></label>
           </fieldset>
 
-          <div class="two">
+          <fieldset class="day room" id="room" hidden>
+            <legend>Staying over? <small>Tell us so we can plan rooms near Royal Pepper</small></legend>
+            <div class="choices two-up" role="radiogroup" aria-label="Do you need a room">
+              <label><input type="radio" name="room" value="yes" /><span>Yes, we need a room</span></label>
+              <label><input type="radio" name="room" value="no" /><span>No, we'll head home</span></label>
+            </div>
+            <div class="nights" id="nights" hidden>
+              <span class="nights-label">Which nights?</span>
+              <label class="tick" data-night="2027-02-14"><input type="checkbox" name="night" value="2027-02-14" /><span>Night of Sunday 14 Feb</span></label>
+              <label class="tick" data-night="2027-02-15"><input type="checkbox" name="night" value="2027-02-15" /><span>Night of Monday 15 Feb</span></label>
+              <label class="tick" id="share-wrap" hidden><input type="checkbox" name="share" /><span>Coming alone? I'm happy to share a room with another friend</span></label>
+            </div>
+          </fieldset>
+
+          <div class="two" id="stay-dates">
             <label class="field"><span>Arriving (first night you need a room)</span>
               <select name="arrive_on">
                 <option value="">Not staying over</option>

@@ -169,14 +169,29 @@
     $('#code').value = code;
     $('#code-help').textContent = 'Found your personal link.';
   }
+  // Pranjal's friends get a plain room question instead of the arriving / leaving pickers (the planner says which).
+  let askRoom = false;
+  const dayFields = () => [...form.querySelectorAll('.day[data-day]')];
+  const answerOf = (d) => (d.querySelector('input[type=radio]:checked') || {}).value;
   const sync = () => {
-    form.querySelectorAll('.day').forEach((d) => {
-      const n = d.dataset.day === '2027-02-14' ? 'd14' : 'd15';
-      const v = (form.querySelector(`input[name=${n}]:checked`) || {}).value;
-      d.classList.toggle('is-off', v === 'no');
+    dayFields().forEach((d) => d.classList.toggle('is-off', answerOf(d) === 'no'));
+    if (!askRoom) return;
+    const coming = dayFields().filter((d) => !d.hidden && answerOf(d) !== 'no');
+    const room = $('#room');
+    // Nobody to put up if they can't come on any day; otherwise wait until at least one day is answered.
+    room.hidden = coming.length === 0 || !dayFields().some((d) => !d.hidden && answerOf(d));
+    const need = (form.querySelector('input[name=room]:checked') || {}).value;
+    $('#nights').hidden = need !== 'yes';
+    const days = coming.map((d) => d.dataset.day);
+    form.querySelectorAll('.tick[data-night]').forEach((t) => {
+      t.hidden = !days.includes(t.dataset.night);
+      if (t.hidden) t.querySelector('input').checked = false;
     });
+    const alone = coming.length > 0 && coming.every((d) => +d.querySelector('input[type=number]').value === 1);
+    $('#share-wrap').hidden = !alone;
   };
   form.addEventListener('change', sync);
+  form.addEventListener('input', sync);
 
   const say = (text, kind) => {
     msg.textContent = text;
@@ -197,12 +212,16 @@
       if (!j.open) return say(NOT_FOUND, 'err');
       if (!j.days.length) return say('We could not find your invitation days. Please tell a family member.', 'err');
       // Start from the whole household, so nobody is left out by accident. They can lower the number.
-      form.querySelectorAll('.day').forEach((d) => {
+      askRoom = !!j.room;
+      $('#stay-dates').hidden = askRoom;
+      $('#room').hidden = true;
+      dayFields().forEach((d) => {
         d.hidden = !j.days.includes(d.dataset.day);
         const n = d.querySelector('input[type=number]');
         n.max = String(j.max);
         n.value = String(j.max);
       });
+      sync();
       say('', '');
     } catch {
       say('We could not check your link just now. You can still send the form.', '');
@@ -217,7 +236,7 @@
     if (!form.code.value.trim()) return say('Please enter your invite code.', 'err');
     if (!form.name.value.trim()) return say('Please tell us your name.', 'err');
     const days = {};
-    for (const d of form.querySelectorAll('.day')) {
+    for (const d of dayFields()) {
       if (d.hidden) continue;
       const v = (d.querySelector('input[type=radio]:checked') || {}).value;
       if (!v) return say('Please answer for each day.', 'err');
@@ -225,7 +244,15 @@
       if (v !== 'no' && people < 1) return say('Please tell us how many people are coming.', 'err');
       days[d.dataset.day] = { answer: v, people };
     }
-    const arrive = form.arrive_on.value, leave = form.leave_on.value;
+    let room;
+    if (askRoom && !$('#room').hidden) {
+      const need = (form.querySelector('input[name=room]:checked') || {}).value;
+      if (!need) return say('Please tell us if you need a room.', 'err');
+      const nights = [...form.querySelectorAll('.tick[data-night]:not([hidden]) input:checked')].map((i) => i.value);
+      if (need === 'yes' && !nights.length) return say('Please pick the nights you need a room.', 'err');
+      room = { need, nights: need === 'yes' ? nights : [], share: need === 'yes' && !$('#share-wrap').hidden && form.share.checked };
+    }
+    const arrive = askRoom ? '' : form.arrive_on.value, leave = askRoom ? '' : form.leave_on.value;
     if ((arrive && !leave) || (!arrive && leave)) return say('Please pick both the arriving and the leaving day, or neither.', 'err');
     if (arrive && leave && leave <= arrive) return say('The leaving day has to be after the arriving day.', 'err');
     const body = {
@@ -234,6 +261,7 @@
       days,
       arrive_on: arrive || null,
       leave_on: leave || null,
+      room,
       travel: form.travel.value.trim(),
       note: form.note.value.trim(),
       website: form.website.value,
