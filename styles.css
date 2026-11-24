@@ -170,7 +170,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--acc); outline: n
 .nights-label { font: 600 13px var(--sans); letter-spacing: 0.02em; color: var(--ink); }
 .tick { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 8px 12px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--card); font-weight: 600; font-size: 14px; cursor: pointer; }
 .tick input { width: 20px; height: 20px; accent-color: var(--acc); flex: none; }
-.tick[hidden], .nights[hidden], .room[hidden], .two[hidden] { display: none; }
+.tab[hidden], .tick[hidden], .nights[hidden], .room[hidden], .two[hidden] { display: none; }
 .form > .btn { justify-self: center; min-width: 200px; }
 .form-msg { min-height: 24px; margin: 0; font-weight: 600; text-align: center; }
 .form-msg.ok { color: #2d6a46; }

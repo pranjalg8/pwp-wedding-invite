@@ -21,7 +21,7 @@
   $('#map-frame').src = embedUrl(main);
 
   // ---- countdown
-  const start = new Date(C.start).getTime();
+  let start = new Date(C.start).getTime();
   const tick = () => {
     const ms = Math.max(0, start - Date.now());
     $('#cd-d').textContent = Math.floor(ms / 864e5);
@@ -78,7 +78,10 @@
     a.click();
     a.remove();
   };
-  const dayEvents = (day) => day.functions.map((f) => ({ ...f, date: day.date }));
+  // With a personal link, the page shows only what that household is invited to. 'wedding' is 15 Feb from the Baraat.
+  let kind = null;
+  const shownFns = (day) => (kind === 'wedding' && day.date === '2027-02-15' ? day.functions.filter((f) => f.key === 'shaadi') : day.functions);
+  const dayEvents = (day) => shownFns(day).map((f) => ({ ...f, date: day.date }));
   // A function's venue is a key into config.js (the built-in copy) or a venue object from the planner.
   const venueOf = (f) => (typeof f.venue === 'string' ? C.venues[f.venue] : f.venue) || C.venues.main;
 
@@ -98,16 +101,15 @@
       list.appendChild(card);
     });
   };
-  document.querySelectorAll('.tab').forEach((t) =>
-    t.addEventListener('click', () => {
-      document.querySelectorAll('.tab').forEach((x) => {
-        x.classList.toggle('is-on', x === t);
-        x.setAttribute('aria-selected', x === t ? 'true' : 'false');
-      });
-      activeDay = C.days.find((d) => d.date === t.dataset.day);
-      renderDay();
-    }),
-  );
+  const pickDay = (t) => {
+    document.querySelectorAll('.tab').forEach((x) => {
+      x.classList.toggle('is-on', x === t);
+      x.setAttribute('aria-selected', x === t ? 'true' : 'false');
+    });
+    activeDay = C.days.find((d) => d.date === t.dataset.day);
+    renderDay();
+  };
+  document.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () => pickDay(t)));
   $('#day-ics').addEventListener('click', () => download(`wedding-${activeDay.date}.ics`, ics(dayEvents(activeDay))));
   renderDay();
 
@@ -139,13 +141,34 @@
     })
     .join('');
 
-  // ---- themes
-  $('#themes').innerHTML = C.themes
-    .map(
+  // ---- themes (a 15 Feb invite skips the Sangeet; wedding only skips the Haldi too)
+  const renderThemes = () =>
+    ($('#themes').innerHTML = C.themes
+      .filter((t) => !((kind === 'day2' || kind === 'wedding') && t.name === 'Sangeet') && !(kind === 'wedding' && t.name === 'Haldi'))
+      .map(
       (t) => `<article class="theme"><div class="swatches" aria-hidden="true">${t.colours.map((c) => `<i style="background:${c}"></i>`).join('')}</div>
       <div class="body"><h3>${esc(t.name)}</h3><div class="when">${esc(t.when)}</div><div class="mood">${esc(t.mood)}</div><p>${esc(t.text)}</p></div></article>`,
     )
-    .join('');
+    .join(''));
+  renderThemes();
+
+  // Narrow the schedule, themes and form to this household's card.
+  const personalise = (k) => {
+    kind = k;
+    const oneDay = k === 'day2' || k === 'wedding';
+    const t14 = $('.tab[data-day="2027-02-14"]');
+    t14.hidden = oneDay;
+    pickDay(oneDay ? $('.tab[data-day="2027-02-15"]') : $('.tab.is-on') || t14);
+    renderThemes();
+    $('#legend-15').textContent = k === 'wedding' ? 'Baraat, Varmala, Mandap (from the evening)' : 'Haldi, Baraat, Varmala, Mandap';
+    if (oneDay) {
+      $('#hero-date').textContent = '15 February 2027';
+      $('#venue-when').innerHTML = k === 'wedding' ? '<span>Wedding</span> 15 February 2027, from the evening' : '<span>Wedding day</span> 15 February 2027';
+      form.travel.placeholder = 'e.g. by car, afternoon of 15 Feb';
+      start = new Date('2027-02-15T00:00:00+05:30').getTime();
+      tick();
+    }
+  };
 
   // ---- gallery (photos/manifest.json: { "photos": [{ "src": "photos/one.jpg", "alt": "…" }] })
   const gal = $('#gallery');
@@ -171,6 +194,7 @@
   }
   // Pranjal's friends get a plain room question instead of the arriving / leaving pickers (the planner says which).
   let askRoom = false;
+  let roomNights = ['2027-02-14', '2027-02-15'];
   const dayFields = () => [...form.querySelectorAll('.day[data-day]')];
   const answerOf = (d) => (d.querySelector('input[type=radio]:checked') || {}).value;
   const sync = () => {
@@ -182,11 +206,16 @@
     room.hidden = coming.length === 0 || !dayFields().some((d) => !d.hidden && answerOf(d));
     const need = (form.querySelector('input[name=room]:checked') || {}).value;
     $('#nights').hidden = need !== 'yes';
-    const days = coming.map((d) => d.dataset.day);
-    form.querySelectorAll('.tick[data-night]').forEach((t) => {
+    const days = coming.map((d) => d.dataset.day).filter((d) => roomNights.includes(d));
+    room.hidden = room.hidden || days.length === 0;
+    const ticks = [...form.querySelectorAll('.tick[data-night]')];
+    ticks.forEach((t) => {
       t.hidden = !days.includes(t.dataset.night);
       if (t.hidden) t.querySelector('input').checked = false;
     });
+    // One possible night: saying yes means that night.
+    const open = ticks.filter((t) => !t.hidden);
+    if (open.length === 1 && need === 'yes') open[0].querySelector('input').checked = true;
     const alone = coming.length > 0 && coming.every((d) => +d.querySelector('input[type=number]').value === 1);
     $('#share-wrap').hidden = !alone;
   };
@@ -213,6 +242,8 @@
       if (!j.days.length) return say('We could not find your invitation days. Please tell a family member.', 'err');
       // Start from the whole household, so nobody is left out by accident. They can lower the number.
       askRoom = !!j.room;
+      if (Array.isArray(j.nights)) roomNights = j.nights;
+      if (j.kind) personalise(j.kind);
       $('#stay-dates').hidden = askRoom;
       $('#room').hidden = true;
       dayFields().forEach((d) => {
