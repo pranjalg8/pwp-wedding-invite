@@ -161,6 +161,12 @@
     pickDay(oneDay ? $('.tab[data-day="2027-02-15"]') : $('.tab.is-on') || t14);
     renderThemes();
     $('#legend-15').textContent = k === 'wedding' ? 'Baraat, Varmala, Mandap (from the evening)' : 'Haldi, Baraat, Varmala, Mandap';
+    // Wedding-only guests are local and drive back: no rooms or stay options are offered to them.
+    if (k === 'wedding') {
+      $('section#stay').hidden = true;
+      $('#nav-stay').hidden = true;
+      document.querySelectorAll('.stay-fact').forEach((li) => (li.hidden = true));
+    }
     if (oneDay) {
       $('#hero-date').textContent = '15 February 2027';
       $('#venue-when').innerHTML = k === 'wedding' ? '<span>Wedding</span> 15 February 2027, from the evening' : '<span>Wedding day</span> 15 February 2027';
