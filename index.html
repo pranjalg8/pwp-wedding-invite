@@ -136,13 +136,10 @@
         </div>
         <div class="reply-body">
         <p class="eyebrow">Will you join us?</p>
-        <p class="lead">Use the personal link we sent you. It already knows who you are. Tell us who is coming on each day.</p>
+        <p class="lead">Open the personal link we sent you. It already knows who you are. Tell us who is coming on each day.</p>
         <form id="rsvp-form" class="form" novalidate>
-          <label class="field">
-            <span>Invite code</span>
-            <input name="code" id="code" autocomplete="off" inputmode="text" placeholder="From your personal link" required />
-            <small id="code-help">Open the link we sent you, or type the code from your invitation.</small>
-          </label>
+          <!-- The code comes from the personal link (or the last one opened on this device); guests never type or see it. -->
+          <input type="hidden" name="code" id="code" />
           <label class="field">
             <span>Your name</span>
             <input name="name" id="name" autocomplete="name" required maxlength="80" />

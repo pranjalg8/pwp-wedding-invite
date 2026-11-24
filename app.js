@@ -192,12 +192,32 @@
   // ---- rsvp
   const form = $('#rsvp-form');
   const msg = $('#rsvp-msg');
+  // The household's code comes from its personal link (?code=). It is also kept in a cookie for this site only, so the
+  // page still knows the household when opened later without the link; a new link replaces it. Guests never see it.
+  const COOKIE = 'pwp_code';
+  const VALID = /^[A-Z2-9]{6,12}$/;
+  const cookiePath = location.pathname.replace(/[^/]*$/, '') || '/';
+  const readCode = () => {
+    try {
+      const m = document.cookie.match(new RegExp('(?:^|; )' + COOKIE + '=([^;]*)'));
+      return m ? decodeURIComponent(m[1]) : '';
+    } catch {
+      return '';
+    }
+  };
+  const keepCode = (c) => {
+    try {
+      document.cookie = `${COOKIE}=${encodeURIComponent(c)}; Max-Age=31536000; Path=${cookiePath}; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`;
+    } catch {
+      /* cookies blocked: the link still works this visit */
+    }
+  };
   const params = new URLSearchParams(location.search);
-  const code = (params.get('code') || params.get('c') || '').trim();
-  if (code) {
-    $('#code').value = code;
-    $('#code-help').textContent = 'Found your personal link.';
-  }
+  const fromLink = (params.get('code') || params.get('c') || '').trim().toUpperCase();
+  if (VALID.test(fromLink)) keepCode(fromLink);
+  const saved = readCode().toUpperCase();
+  const code = VALID.test(fromLink) ? fromLink : VALID.test(saved) ? saved : '';
+  $('#code').value = code;
   // Pranjal's friends get a plain room question instead of the arriving / leaving pickers (the planner says which).
   let askRoom = false;
   let roomNights = ['2027-02-14', '2027-02-15'];
@@ -234,7 +254,7 @@
   };
   if (!C.rsvpEndpoint) say('RSVP opens soon. We will send your personal link when it does.', '');
 
-  const NOT_FOUND = 'We could not open RSVP for this code. Please check it against your invitation, or tell a family member.';
+  const NOT_FOUND = 'We could not open RSVP for this link. Please ask a family member to send your personal link again.';
 
   // With a personal link, ask the planner which days this household is invited to and how many it can bring, and
   // show only those days. Replies may still be closed; then the form says so.
@@ -264,13 +284,16 @@
       say('We could not check your link just now. You can still send the form.', '');
     }
   };
-  lookup(code);
-  $('#code').addEventListener('change', (e) => lookup(e.target.value.trim()));
+  if (code) lookup(code);
+  else if (C.rsvpEndpoint) {
+    say('Please open the personal link we sent you to reply. It already knows who you are.', '');
+    $('#rsvp-submit').disabled = true;
+  }
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!C.rsvpEndpoint) return say('RSVP is not open yet. Please check back when we send your personal link.', 'err');
-    if (!form.code.value.trim()) return say('Please enter your invite code.', 'err');
+    if (!form.code.value.trim()) return say('Please open the personal link we sent you to reply.', 'err');
     if (!form.name.value.trim()) return say('Please tell us your name.', 'err');
     const days = {};
     for (const d of dayFields()) {
